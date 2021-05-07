@@ -4,6 +4,7 @@ let answersEl = document.querySelector("#answers");
 let startBoxEl = document.querySelector("#start-box");
 let startEl = document.querySelector("#start");
 let timerEl = document.querySelector("#countdown");
+
 let secondsLeft=76;
 let gameOver=false
 let correctResponse="";
@@ -31,6 +32,12 @@ const myQuestion=[
     }
 ];
 
+function init() {
+    let storedScores = JSON.parse(localStorage.getItem("allHighScores"));
+    if (storedScores !== null){
+        allHighScores=storedScores;
+    }
+}
 // add event listener to start button to start quiz
 startEl.addEventListener("click", function(){
     // start timer
@@ -50,14 +57,18 @@ choicesEl.addEventListener("click", function(event){
             startBoxEl.textContent="Wrong!";
             secondsLeft -= 15;
         }
+        setTimeout(function(){
+            startBoxEl.textContent="";
+            startBoxEl.style.borderTop="none";
+        },1500);
         if(usedQs.length<2){
             chooseQuestion();
         }else{
-            // run highscore function
             gameOver=true;
         }
     }
 })
+// select a random question and check to make sure it hasn't been used it.
 function chooseQuestion(){
     let shuffleQs = Math.floor(Math.random()*myQuestion.length);
     if(usedQs.includes(shuffleQs)){
@@ -68,8 +79,8 @@ function chooseQuestion(){
         loadQuestion(shuffleQs);
     }
 }
+// Display new question on screen
 function loadQuestion(q){
-    
     questionEl.textContent=myQuestion[q].question;
     choicesEl.textContent="";
     startEl.textContent="";
@@ -80,30 +91,74 @@ function loadQuestion(q){
         button.textContent=myQuestion[q].answers[index[i]];
         button.setAttribute("answer-options", index[i]);
         choicesEl.appendChild(button);
-    }
-    
-   
+    } 
 }
 // starts countdown, displays timer, and clears interval
 function countDown(){
     let timerInterval=setInterval(function(){
         secondsLeft--;
         timerEl.textContent="time: " + secondsLeft;
-        startBoxEl.textContent="";
-        startBoxEl.style.borderTop="none";
         if(secondsLeft===0 || gameOver) {
             clearInterval(timerInterval);
-            // run our highscore function
+            highScore();
         }
     },1000);
 }
+// create elements for entering high score
+let highScoreContainer = document.createElement('div');
+let highScoreLabelEl = document.createElement("label");
+let highScoreEl = document.createElement("input");
+let highScorebtnEl = document.createElement("a");
+let allHighScores=[];
 
-// once answer is selected check if it is right.
-    // if right, move onto next question & display correct.
-    // if wrong, deduct time from timer, display wrong, move onto next question
-    // check to see how many questions have been asked
+// Label elements for high score
+highScoreLabelEl.textContent="Enter Initials";
+highScorebtnEl.textContent="Submit";
+highScorebtnEl.href="HighScores.html";
 
-// once all questions are answered stop timer, take score from timer.  ask for initials.  Display a submit box.
+// append high score elements to a div
+highScoreContainer.appendChild(highScoreLabelEl);
+highScoreContainer.appendChild(highScoreEl);
+highScoreContainer.appendChild(highScorebtnEl);
+
+// Ask user for initials 
+function highScore(){
+    questionEl.textContent="All Done";
+    choicesEl.textContent= "Your final score is " + secondsLeft;
+    choicesEl.appendChild(highScoreContainer);
+}
+
+// listen for user to submit high score
+highScoreContainer.addEventListener('click', function(event){
+    event.stopPropagation();
+    let element = event.target;
+    if(element.matches("a")===true){
+    let submitHighScore ={
+        initials: highScoreEl.value,
+        score: secondsLeft
+    };
+    allHighScores.push(submitHighScore);
+    storeHighScore();
+    }
+})
+// sorts high scores from highest to lowest
+function compare(a,b){
+    let comparison =0;
+    if(a.score>b.score){
+        comparison = -1;
+    }else if (a.score<b.score){
+        comparison = 1;
+    }
+    return comparison;
+}
+// sort high scores and store them
+function storeHighScore() {
+    allHighScores.sort(compare);
+    localStorage.setItem("allHighScores",JSON.stringify(allHighScores));
+
+}
+
+init();
 
 // use local storage to rank high scores. Go to highscore page.
 
