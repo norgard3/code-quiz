@@ -5,6 +5,8 @@ let startBoxEl = document.querySelector("#start-box");
 let startEl = document.querySelector("#start");
 let timerEl = document.querySelector("#countdown");
 
+
+
 let secondsLeft=76;
 let gameOver=false
 let correctResponse="";
@@ -13,20 +15,50 @@ const myQuestion=[
     {
         question: "Who invented JavaScript?",
         answers: {
-            a: "Douglas Crockford",
-            b: "Brendan Eich",
-            c: "Sheryl Sandberg",
-            d: "Steve Jobs"
+            a: "1. Douglas Crockford",
+            b: "2. Brendan Eich",
+            c: "3. Sheryl Sandberg",
+            d: "4. Steve Jobs"
         },
         correctAnswer: "b"
     },
     {
-        question: "Which of the following is a valid type of function javascript supports",
+        question: "Which of the following is a valid type of function javascript supports?",
         answers: {
-            a: "named function",
-            b: "anonymous function",
-            c: "both of the above",
-            d: "none of the above"
+            a: "1. named function",
+            b: "2. anonymous function",
+            c: "3. both of the above",
+            d: "4. none of the above"
+        },
+        correctAnswer: "c"
+    },
+    {
+        question: "Which of the following is not JavaScript Data Types?",
+        answers: {
+            a: "1. Undefined",
+            b: "2. Number",
+            c: "3. Boolean",
+            d: "4. Float"
+        },
+        correctAnswer: "d"
+    },
+    {
+        question: "Inside which HTML element do we put the Javascript?",
+        answers: {
+            a: "1. <script>",
+            b: "2. <head>",
+            c: "3. <meta>",
+            d: "4. <style>"
+        },
+        correctAnswer: "a"
+    },
+    {
+        question: "Which of the following is not Javascript frameworks or libraries",
+        answers: {
+            a: "1. Polymer",
+            b: "2. Meteor",
+            c: "3. Cassandra",
+            d: "4. jQuery"
         },
         correctAnswer: "c"
     }
@@ -39,7 +71,7 @@ function init() {
     }
 }
 // add event listener to start button to start quiz
-startEl.addEventListener("click", function(){
+startEl.addEventListener("click",function(){
     // start timer
     countDown();
     // choose and load the first question and possible answers
@@ -61,7 +93,7 @@ choicesEl.addEventListener("click", function(event){
             startBoxEl.textContent="";
             startBoxEl.style.borderTop="none";
         },1500);
-        if(usedQs.length<2){
+        if(usedQs.length<5){
             chooseQuestion();
         }else{
             gameOver=true;
@@ -157,7 +189,6 @@ function storeHighScore() {
     localStorage.setItem("allHighScores",JSON.stringify(allHighScores));
 
 }
-
 init();
 
 // use local storage to rank high scores. Go to highscore page.
