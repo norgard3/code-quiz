@@ -1,6 +1,81 @@
+#highScore{
+    text-decoration: none;
+    color: black;
+    font-size: 1.1rem;
+}
+#countdown{
+    position: absolute;
+    top:0;
+    right: 0;
+    padding-right: 1.5rem;
+}
+.container{
+    margin: auto;
+    padding: 1rem;
+    text-align: center;
+    width: 50%;
+    min-width: 275px;
+    
+}
+#question{
+    padding-bottom: 1rem;
+}
+#choices{
+    padding-bottom: 1rem;
+}
+#start{
+    margin: auto;
+}
+.buttons{
+    display: block;
+    background-color: blueviolet;
+    color: white;
+    padding: .25rem;
+    margin-bottom: .3rem;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.submit{
+    display: inline-block;
+}
+a{
+    text-decoration: none;
+}
 ol{
     margin-left: 10px;
     padding-left: 10px;
     list-style: decimal;
-    text-decoration: overline;
 }
+li{
+    background-color: gray;
+    color: black;
+    font-size: 1.5rem;
+}
+li:nth-child(odd){
+    background-color: lightgray;
+}
+.highScoreBox{
+    width: 50%;
+    position: relative;
+    margin: auto;
+    min-width: 275px;
+}
+#goBack{
+    position: absolute;
+    left: 10px;
+    bottom: -40px;
+}
+#clear{
+    position: absolute;
+    right: 10px;
+    bottom: -40px;
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .highScoreBox{
+      width: 95%;
+    }
+    .container{
+        width: 95%;
+    }
+  }
